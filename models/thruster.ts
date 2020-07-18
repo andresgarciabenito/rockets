@@ -1,9 +1,7 @@
-/* class Thruster {
-    thrusterNumber: number;
+class Thruster {
     power: number;
 
-    constructor(thrusterNumber: number, power: number){
-    this.thrusterNumber= thrusterNumber;
+    constructor(power: number){
     this.power= power;
     }
-} */
+}

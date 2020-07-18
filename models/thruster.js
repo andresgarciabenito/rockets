@@ -1,6 +1,5 @@
 var Thruster = /** @class */ (function () {
-    function Thruster(thrusterNumber, power) {
-        this.thrusterNumber = thrusterNumber;
+    function Thruster(power) {
         this.power = power;
     }
     return Thruster;
