@@ -4,6 +4,8 @@ var rocket2: Rocket;
 //var cantidad de propulsores
 var thrusterNumber1: number;
 var thrusterNumber2: number;
+var temp:number;
+var sum: number=0;
 
 var ui= new UI;
 addMainFormEventListener()
@@ -81,10 +83,6 @@ function addThrustersEventListener(){
     event.preventDefault();
     event.stopPropagation();
 
-/* 
-    var maxPowerR1= new Array();
-    var maxPowerR2= new Array(); */
-
     //Validaciones de los inputs 
     for (var i = 1; i<=thrusterNumber1; i++){
             //captura el input (potencia de cada propulsor)
@@ -100,11 +98,21 @@ function addThrustersEventListener(){
             var thrustersTemp = new Thruster(rocketpower1);
             rocket1.addThruster(thrustersTemp);    
             }   
+
     }
+
     rocket=rocket1;
+    temp=thrusterNumber1;
+    //sumar las potencias
+
+    /* sum=0;
+    for (var i=0; i<rocket.thrustersPower.length; i++){
+        sum= sum + rocket.thrustersPower[i].power;
+    } */
+
     ui.addPowers(rocket);
+    console.log(sum);
     
-    /* maxPowerR1.push(rocketpower);  */
     
     for (var i = 1; i<=thrusterNumber2; i++){
             //captura el input (potencia de cada propulsor)
@@ -124,13 +132,25 @@ function addThrustersEventListener(){
             rocket2.addThruster(thrustersTemp);
             }          
     }
-    rocket=rocket2;    
-    ui.addPowers(rocket);
-    
-    
-    /* maxPowerR1.push(rocketpower);  */
-      
-  }) 
 
+    rocket=rocket2;    
+    temp=thrusterNumber2;
+
+    /* sum=0;
+    for (var i=0; i<rocket.thrustersPower.length; i++){
+        sum= sum + rocket.thrustersPower[i].power;
+    } */
+
+    ui.addPowers(rocket);
+    ui.restoreFormControlButtons();
+    /* startGameEventListener(); */
+
+  }); 
+    
+  
 }
+
+/* function startGameEventListener(){
+
+} */
 

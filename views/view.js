@@ -6,38 +6,86 @@ var UI = /** @class */ (function () {
         var rocketList = document.getElementById('card-details');
         var element = document.createElement('div');
         element.innerHTML =
-            "<div class=\"card text-center mb-4\">\n                      <h6 class=\"text-success mt-2\">New Rocket Created</h6>\n                      <div class=\"card-body\">\n                        <div class=\"row justify-content-around\">\n                          <div class=\"col-5\">\n                           <strong>Rocket CODE</strong> " + rocket.name + "\n                          </div>\n                          <div class=\"col-5\">\n                           <strong>Number of Thrusters:</strong> " + rocket.thrusters + "\n                         </div>\n                        </div>\n                      </div>\n                    </div>\n                    ";
+            "<div class=\"card text-center mb-2\">\n                      <h6 class=\"text-success mt-2\">New Rocket Created</h6>\n                      <div class=\"card-body mt-1\" id=\"card-body\">\n                      <div class=\"row justify-content-aroun>\n                        <div class=\"row justify-content-around\">\n                          <div class=\"col-5\">\n                           <strong>Rocket CODE</strong> " + rocket.name + "\n                          </div>\n                          <div class=\"col-5\">\n                           <strong>Number of Thrusters:</strong> " + rocket.thrusters + "\n                         </div>\n                        </div>\n                      </div>\n                    </div>\n                    ";
         rocketList.appendChild(element);
     };
     UI.prototype.restoreForm = function () {
         //Elimina el formulario anterior y crea uno nuevo
         var divCard2 = document.createElement('div');
-        //Agregar la clase md-5 al elemento anterior
+        divCard2.setAttribute('id', 'divCard2');
+        //Agregar la clase col-md-5 al elemento anterior
         divCard2.classList.add('col-md-5');
         var divCard1 = document.getElementById('divcard1');
         document.getElementById('app').replaceChild(divCard2, divCard1);
+        //se agregan inputs segun el valor de thrusterNumber1
         divCard2.innerHTML =
-            "<div class=\"card\" id=\"card\">\n                          <div class=\"card-header\">\n                            <h4>ROCKETS!</h4>\n                          </div>\n                          <div class=\"card-body\">\n                           <form action=\"\" id=\"thrusters-form\">\n                              <div class=\"form-group\">\n                                <label for=\"\"><strong>Rocket 1</strong></label><br>\n                                <div class=\"row mt-2\">\n                                    <div class=\"col-4\">\n                                      <label for=\"\">Thruster 1</label>\n                                      <input type=\"number\" step=\"10\" id=\"R1Number1\" placeholder=\"--\" class=\"form-control\">\n                                    </div>\n                                    <div class=\"col-4\">\n                                      <label for=\"\">Thruster 2</label>\n                                    <input type=\"number\" step=\"10\" id=\"R1Number2\" placeholder=\"--\" class=\"form-control\">\n                                    </div>\n                                    <div class=\"col-4\">\n                                      <label for=\"\">Thruster 3</label>\n                                    <input type=\"number\" step=\"10\" id=\"R1Number3\" placeholder=\"--\" class=\"form-control\">\n                                    </div>\n                                </div>\n                              </div>\n                          \n                              <div class=\"form-group\">\n                                <label for=\"\"><strong>Rocket 2</strong></label><br>\n                                <div class=\"row mt-2\">\n                                <div class=\"col-4\">\n                                  <label for=\"\">Thruster 1</label>\n                                  <input type=\"number\" step=\"10\" id=\"R2Number1\" placeholder=\"--\" class=\"form-control\">\n                                </div>\n                                <div class=\"col-4\">\n                                  <label for=\"\">Thruster 2</label>\n                                <input type=\"number\" step=\"10\" id=\"R2Number2\" placeholder=\"--\" class=\"form-control\">\n                                </div>\n                                <div class=\"col-4\">\n                                  <label for=\"\">Thruster 3</label>\n                                <input type=\"number\" step=\"10\" id=\"R2Number3\" placeholder=\"--\" class=\"form-control\">\n                                </div>\n                                <div class=\"col-4\">\n                                  <label for=\"\">Thruster 4</label>\n                                  <input type=\"number\" step=\"10\" id=\"R2Number4\" placeholder=\"--\" class=\"form-control\">\n                                </div>\n                                <div class=\"col-4\">\n                                  <label for=\"\">Thruster 5</label>\n                                <input type=\"number\" step=\"10\" id=\"R2Number5\" placeholder=\"--\" class=\"form-control\">\n                                </div>\n                                <div class=\"col-4\">\n                                  <label for=\"\">Thruster 6</label>\n                                <input type=\"number\" step=\"10\" id=\"R2Number6\" placeholder=\"--\" class=\"form-control\">\n                                </div>\n                            </div>\n                              </div>\n                              <input type=\"submit\" class=\"btn btn-warning btn-block\" value=\"Create Rockets\">\n                            </form>\n                          </div>\n                        </div>\n                      ";
-    };
-    UI.prototype.addThruster = function (thruster) {
-        //accedo al div
-        var rocketList = document.getElementById('card-details');
-        var element = document.createElement('div');
-        element.innerHTML = "\n                      <div class=\"card text-center mb-4\">\n                        <h6 class=\"text-success mt-2\">New Rocket Created</h6>\n                        <div class=\"card-body\">\n                          <div class=\"row justify-content-around\">\n                            <div class=\"col-5\">\n                             <strong>Rocket CODE</strong> " + rocket.name + "\n                            </div>\n                            <div class=\"col-5\">\n                             <strong>Number of Thrusters:</strong> " + rocket.thrusters + "\n                           </div>\n                          </div>\n                        </div>\n                      </div>\n                      ";
-        rocketList.appendChild(element);
+            "<div class=\"card\" id=\"card\">\n                          <div class=\"card-header\">\n                            <h4>ROCKETS!</h4>\n                          </div>\n                          <div class=\"card-body\">\n                           <form action=\"\" id=\"thrusters-form\">\n\n                           <input type=\"submit\" class=\"btn btn-warning btn-block\" value=\"Set Thrusters\" id=\"submitbutton\">  \n                           </form>\n                          </div>\n                        </div>\n                        ";
+        var thrustersform = document.getElementById('thrusters-form');
+        //agregamos un div con el label Rocket 1
+        var divformgroup1 = document.createElement('div');
+        divformgroup1.classList.add('form-group');
+        divformgroup1.classList.add('pt-3');
+        divformgroup1.innerHTML = "<label for=\"\"><strong>Rocket 1</strong> Select max power for each thruster</label><br>";
+        thrustersform.appendChild(divformgroup1);
+        //agregarmos un div con la clase row, que contiene los div col-4
+        var allthrusters = document.createElement('div');
+        allthrusters.classList.add('row');
+        divformgroup1.appendChild(allthrusters);
+        for (var i = 1; i <= thrusterNumber1; i++) {
+            var eachthruster = document.createElement('div');
+            eachthruster.classList.add('col-4');
+            eachthruster.innerHTML = "                                \n                              \n                                <label for=\"\">Thruster " + i + "</label>\n                                <input type=\"number\" step=\"10\" id=\"R1Number" + i + "\" placeholder=\"--\" class=\"form-control\">\n                              \n                              ";
+            allthrusters.appendChild(eachthruster);
+        }
+        //agregamos un div con el label Rocket 2 
+        var divformgroup2 = document.createElement('div');
+        divformgroup2.classList.add('form-group');
+        divformgroup2.classList.add('pt-3');
+        divformgroup2.innerHTML = "<label for=\"\"><strong>Rocket 2</strong> Select max power for each thruster</label><br>";
+        thrustersform.appendChild(divformgroup2);
+        //agregarmos un div con la clase row, que contiene los div col-4
+        var allthrusters2 = document.createElement('div');
+        allthrusters2.classList.add('row');
+        divformgroup2.appendChild(allthrusters2);
+        for (var i = 1; i <= thrusterNumber2; i++) {
+            var eachthruster2 = document.createElement('div');
+            eachthruster2.classList.add('col-4');
+            eachthruster2.innerHTML = "                                \n                              \n                                <label for=\"\">Thruster " + i + "</label>\n                                <input type=\"number\" step=\"10\" id=\"R2Number" + i + "\" placeholder=\"--\" class=\"form-control\">\n                              \n                              ";
+            allthrusters2.appendChild(eachthruster2);
+        }
     };
     UI.prototype.addPowers = function (rocket) {
         //accedo al div
-        var rocketList = document.getElementById('card-details');
+        var rocketDetails = document.getElementById('card-body');
         var element = document.createElement('div');
         element.innerHTML =
-            "<div class=\"card text-center mb-4\">\n                                <h6 class=\"text-success mt-2\">Rocket Details</h6>\n                                <div class=\"card-body\" id=\"card-body\">\n                                  <div class=\"row justify-content-around\" id=\"card-row\">\n\n                                  </div>\n                                </div>\n                            </div>\n                            ";
-        rocketList.appendChild(element);
+            "<div class=\"row justify-content-around\">\n                                  <h6 class=\"text-warning mt-2\">Thrusters Details (max power)</h6>\n                                    <div class=\"row justify-content-around\" id=\"card-row\">\n                                    </div>\n                                </div>\n                            </div>\n                            ";
+        rocketDetails.appendChild(element);
         var cardBody = document.getElementById('card-row');
-        for (var i = 0; i <= thrusterNumber1; i++) {
+        for (var i = 0; i < temp; i++) {
             var element2 = document.createElement('div');
-            element2.innerHTML = "                                \n                                    <strong>Thruster  Power:</strong> " + rocket.thrustersPower[i].power + "\n                                  ";
+            /* element2.innerHTML=`<label for="">Thruster </label>` */
+            element2.innerHTML = "<strong>Thruster " + (i + 1) + "  Power:</strong> " + rocket.thrustersPower[i].power;
             cardBody.appendChild(element2);
+            rocketDetails.setAttribute('id', 'card-body2');
+        }
+    };
+    UI.prototype.restoreFormControlButtons = function () {
+        //Elimina el formulario anterior y crea uno nuevo
+        var divCard3 = document.createElement('div');
+        //Agregar la clase col-md-5 al elemento anterior
+        divCard3.classList.add('col-md-5');
+        var replaced = document.getElementById('divCard2');
+        document.getElementById('app').replaceChild(divCard3, replaced);
+        divCard3.innerHTML =
+            "<div class=\"card\" id=\"card\">\n                          <div class=\"card-header\">\n                            <h4>Start Race</h4>\n                          </div>\n                          <div class=\"card-body\">\n                           <form action=\"\" id=\"button-controller\">\n                           \n                           <input type=\"submit\" class=\"btn btn-dark btn-block\" value=\"Show All rockets\" id=\"allrocketsbutton\"> \n                           </form>\n                          </div>\n                       </div>\n                       ";
+        //se agregan los botones de control
+        var buttonController = document.getElementById('button-controller');
+        for (var i = 1; i <= 2; i++) { //se puede reemplazar el 2, por el valor de un input al inicio de la app
+            var divButtons = document.createElement('div');
+            divButtons.classList.add('mt-2');
+            divButtons.innerHTML = "\n        <input type=\"submit\" class=\"btn btn-primary btn-block\" value=\"Accelerate Rocket " + i + "\" id=\"acceleratebutton" + i + "\">  \n        <input type=\"submit\" class=\"btn btn-info btn-block\" value=\"Break Rocket " + i + "\" id=\"breakbutton" + i + "\">\n        <input type=\"submit\" class=\"btn btn-secondary btn-block\" value=\"Show Rocket " + i + " Status\" id=\"showrocketbutton" + i + "\">\n        ";
+            buttonController.appendChild(divButtons);
         }
     };
     return UI;
