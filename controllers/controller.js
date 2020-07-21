@@ -4,8 +4,11 @@ var rocket2;
 //var cantidad de propulsores
 var thrusterNumber1;
 var thrusterNumber2;
+var maxthrusterpowerR1 = Array();
+var maxthrusterpowerR2 = Array();
 var temp;
-var sum = 0;
+var sumR1 = 0;
+var sumR2 = 0;
 var ui = new UI;
 addMainFormEventListener();
 function addMainFormEventListener() {
@@ -88,15 +91,10 @@ function addThrustersEventListener() {
                 rocket1.addThruster(thrustersTemp);
             }
         }
+        maxthrusterpowerR1 = rocket1.thrustersPower;
         rocket = rocket1;
         temp = thrusterNumber1;
-        //sumar las potencias
-        /* sum=0;
-        for (var i=0; i<rocket.thrustersPower.length; i++){
-            sum= sum + rocket.thrustersPower[i].power;
-        } */
         ui.addPowers(rocket);
-        console.log(sum);
         for (var i = 1; i <= thrusterNumber2; i++) {
             //captura el input (potencia de cada propulsor)
             var rocketpower2 = Number(document.getElementById("R2Number" + i).value);
@@ -116,17 +114,99 @@ function addThrustersEventListener() {
                 rocket2.addThruster(thrustersTemp);
             }
         }
+        maxthrusterpowerR2 = rocket2.thrustersPower;
         rocket = rocket2;
         temp = thrusterNumber2;
-        /* sum=0;
-        for (var i=0; i<rocket.thrustersPower.length; i++){
-            sum= sum + rocket.thrustersPower[i].power;
-        } */
         ui.addPowers(rocket);
         ui.restoreFormControlButtons();
-        /* startGameEventListener(); */
+        startRaceEventListener();
     });
 }
-/* function startGameEventListener(){
+function startRaceEventListener() {
+    //Potencia actual 0
+    sumR1 = 0;
+    for (var i = 0; i < thrusterNumber1; i++) {
+        rocket1.thrustersPower[i].power = 0;
+        sumR1 = +rocket.thrustersPower[i].power;
+    }
+    sumR2 = 0;
+    for (var i = 0; i < thrusterNumber2; i++) {
+        rocket2.thrustersPower[i].power = 0;
+        sumR2 = +rocket.thrustersPower[i].power;
+    }
+    //Accelerate R1
+    var buttonAccelerateR1 = document.getElementById('acceleratebutton1');
+    buttonAccelerateR1.onclick = function (event) {
+        event.preventDefault();
+        //sumar 10 a cada propulsor
+        //prueba
+        /* for(var i=0; i<thrusterNumber1; i++){
 
-} */
+            if (rocket1.thrustersPower[i].power>=0 || rocket1.thrustersPower[i].power<=maxthrusterpowerR2[i].power){
+                for(var j=0; j<thrusterNumber1; j++){
+                rocket1.thrustersPower[j].power=(rocket1.thrustersPower[j].power)+10;
+                sumR1=+rocket1.thrustersPower[j].power;
+                }
+            }
+        } */
+        for (var i = 0; i < thrusterNumber1; i++) {
+            rocket1.thrustersPower[i].power = (rocket1.thrustersPower[i].power) + 10;
+            sumR1 = +rocket1.thrustersPower[i].power;
+        }
+    };
+    //Break R1
+    var buttonBreakR1 = document.getElementById('breakbutton1');
+    buttonBreakR1.onclick = function (event) {
+        event.preventDefault();
+        //restar 10 a cada propulsor
+        for (var i = 0; i < thrusterNumber1; i++) {
+            rocket1.thrustersPower[i].power = (rocket1.thrustersPower[i].power) - 10;
+            sumR1 = +rocket1.thrustersPower[i].power;
+        }
+    };
+    //Accelerate R2
+    var buttonAccelerateR2 = document.getElementById('acceleratebutton2');
+    buttonAccelerateR2.onclick = function (event) {
+        event.preventDefault();
+        for (var i = 0; i < thrusterNumber2; i++) {
+            rocket2.thrustersPower[i].power = (rocket2.thrustersPower[i].power) + 10;
+            sumR1 = +rocket2.thrustersPower[i].power;
+        }
+    };
+    //Break R2
+    var buttonBreakR2 = document.getElementById('breakbutton2');
+    buttonBreakR2.onclick = function (event) {
+        event.preventDefault();
+        //restar 10 a cada propulsor
+        for (var i = 0; i < thrusterNumber2; i++) {
+            rocket2.thrustersPower[i].power = (rocket2.thrustersPower[i].power) - 10;
+            sumR1 = +rocket2.thrustersPower[i].power;
+        }
+    };
+    //Evento de escucha, Show Rocket 1 Status (form1)
+    var formButtonController1 = document.getElementById('button-controller1');
+    formButtonController1.addEventListener('submit', function (event) {
+        //se puede reemplazar el 2, por el valor de un input al inicio de la app (en un bucle for)
+        event.preventDefault;
+        event.stopPropagation;
+        rocket = rocket1;
+        ui.addStatusR1(rocket);
+    });
+    //Evento de escucha, Show Rocket 2 Status (form2)
+    var formButtonController2 = document.getElementById('button-controller2');
+    formButtonController2.addEventListener('submit', function (event) {
+        //se puede reemplazar el 2, por el valor de un input al inicio de la app (en un bucle for)
+        event.preventDefault;
+        event.stopPropagation;
+        rocket = rocket2;
+        ui.addStatusR2(rocket);
+    });
+    /* //Evento de escucha, Show Rocket All Status (form general)
+    var formButtonControllerAll=document.getElementById('button-controller');
+    formButtonControllerAll.addEventListener('submit', function(event){
+        //se puede reemplazar el 2, por el valor de un input al inicio de la app (en un bucle for)
+        event.preventDefault;
+        event.stopPropagation;
+        ui.showStatusAll();
+    }); */
+}
