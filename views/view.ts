@@ -1,3 +1,8 @@
+// Identificar el número de tarjeta, para poder registrar los thrusters. 
+// Asignar un card-body-(número)
+var counterDiv: number=1;
+
+
 class UI{
 
     addRocket(rocket: Rocket){
@@ -7,7 +12,7 @@ class UI{
     element.innerHTML=
                     `<div class="card text-center mb-2">
                       <h6 class="text-success mt-2">New Rocket Created</h6>
-                      <div class="card-body mt-1" id="card-body">
+                      <div class="card-body mt-1" id="card-body-${counterDiv}">
                          <div class="row justify-content-around">
                           <div class="col-5">
                            <strong>Rocket CODE</strong> ${rocket.name}
@@ -19,8 +24,8 @@ class UI{
                       </div>
                     </div>
                     `;
-
     rocketList.appendChild(element);
+    counterDiv++;
     }
 
     restoreForm(){
@@ -40,20 +45,21 @@ class UI{
                           </div>
                           <div class="card-body">
                            <form action="" id="thrusters-form">
-
+                           <div id="buttons"></div>
                            <input type="submit" class="btn btn-warning btn-block" value="Set Thrusters" id="submitbutton">  
                            </form>
                           </div>
                         </div>
                         `
-    const thrustersform=document.getElementById('thrusters-form');
+    const buttondiv=document.getElementById('buttons');
+
     
     //agregamos un div con el label Rocket 1
     const divformgroup1=document.createElement('div');
     divformgroup1.classList.add('form-group');
     divformgroup1.classList.add('pt-3');
     divformgroup1.innerHTML=`<label for=""><strong>Rocket 1</strong> Select max power for each thruster</label><br>`; 
-    thrustersform.appendChild(divformgroup1);  
+    buttondiv.appendChild(divformgroup1);  
 
     //agregarmos un div con la clase row, que contiene los div col-4
     const allthrusters=document.createElement('div');
@@ -78,7 +84,7 @@ class UI{
     divformgroup2.classList.add('form-group');
     divformgroup2.classList.add('pt-3');
     divformgroup2.innerHTML=`<label for=""><strong>Rocket 2</strong> Select max power for each thruster</label><br>`; 
-    thrustersform.appendChild(divformgroup2); 
+    buttondiv.appendChild(divformgroup2); 
     
     //agregarmos un div con la clase row, que contiene los div col-4
     const allthrusters2=document.createElement('div');
@@ -98,28 +104,23 @@ class UI{
                           
     }
     
-    addPowers(rocket: Rocket){
+    addPowers(rocket: Rocket, rocketDiv: string){
             //accedo al div
-            const rocketDetails=document.getElementById('card-body');
+            //rocketDiv va a contener el valor de card-body-1 (o 2 respectivamente), las tarjetas con la info de cada rocket
+            const rocketDetails=document.getElementById(rocketDiv);
             const element=document.createElement('div');
             element.classList.add('row');
             element.setAttribute('class', 'justify-content-center');
             element.innerHTML=
                             `<h6 class="text-warning mt-2">Thrusters Details (max power)</h6>
-                                    <div class="row justify-content-around" id="card-row">
-                                    </div>
-                                </div>
                             `;
             rocketDetails.appendChild(element);
-
-            const cardBody=document.getElementById('card-row');
-
+    
             for (var i=0; i<temp; i++){
             const element2=document.createElement('div');
-            
-            /* element2.innerHTML=`<label for="">Thruster </label>` */
+            //necesitamos que el i sea cero para iterar el array, pero sumarle uno al identifcar el número de thruster
             element2.innerHTML=`<strong>Thruster ${i+1}  Power:</strong> ${rocket.thrustersPower[i].power}`
-            cardBody.appendChild(element2);
+            rocketDetails.appendChild(element2);
             }
     }
 
@@ -161,7 +162,7 @@ class UI{
       }
     }
 
-    addTotalPowers(rocket: Rocket){
+    /* addTotalPowers(rocket: Rocket){
       //accedo al div
       const rocketDetails=document.getElementById('card-body');
       const element=document.createElement('div');
@@ -179,55 +180,44 @@ class UI{
       for (var i=0; i<temp; i++){
       const element2=document.createElement('div');
       
-      /* element2.innerHTML=`<label for="">Thruster </label>` */
+      
       element2.innerHTML=`<strong>Thruster ${i+1}  Power:</strong> ${rocket.thrustersPower[i].power}`
       cardBody.appendChild(element2);
       }
+    } */
+
+    addStatus(rocket: Rocket){
+        //accedo al div
+        var powerList=document.getElementById('show-results');
+        var statusDiv1=document.createElement('div');
+        statusDiv1.innerHTML=
+                            `
+                            <div class="card text-center mb-2" >
+                              <h6 class="text-primary mt-2">Rocket ${rocket.name} Status</h6>
+                              <div class="card-body mt-1" id="cardStatus">
+                                  <div class="row justify-content-around">
+                                      
+                                  </div>
+                              </div>
+                            </div>  
+                            `;
+        powerList.appendChild(statusDiv1);
+        //hasta acá se crea el div principal
+    
+        var cardStatus=document.getElementById('cardStatus');
+        
+        for (var i=0; i<temp; i++){
+              var elementStatus=document.createElement('div');
+              elementStatus.classList.add('col-4');
+              //necesitamos que el i sea cero para iterar el array, pero sumarle uno al identifcar el número de thruster
+              elementStatus.innerHTML=`        
+                                    <strong>Power Status</strong> ${rocket.thrustersPower[i].power}
+                                    `; 
+              cardStatus.appendChild(elementStatus);
+        }      
+
     }
 
-    addStatusR1(rocket: Rocket){
-    //accedo al div
-    const powerList=document.getElementById('show-results');
-    const element=document.createElement('div');
-    element.innerHTML=
-                    `<div class="card text-center mb-2">
-                    <h6 class="text-success mt-2">Status Rocket 1</h6> 
-                    <div class="card-body mt-1" id="card-body">
-                       <div class="row justify-content-around">
-                        <div class="col-6">
-                         <strong>Rocket ${rocket.name} </strong> 
-                        </div>
-                        <div class="col-6">
-                         <strong>Current power:</strong> ${sumR1}
-                       </div>
-                      </div>
-                    </div>
-                  </div>
-                    `;
-    powerList.appendChild(element);
-    }
-
-    addStatusR2(rocket: Rocket){
-    //accedo al div
-    const powerList=document.getElementById('show-results');
-    const element=document.createElement('div');
-    element.innerHTML=
-                    `<div class="card text-center mb-2">
-                    <h6 class="text-success mt-2">Status Rocket 2</h6> 
-                    <div class="card-body mt-1" id="card-body">
-                       <div class="row justify-content-around">
-                        <div class="col-6">
-                         <strong>Rocket ${rocket.name} </strong> 
-                        </div>
-                        <div class="col-6">
-                         <strong>Current power:</strong> ${sumR2}2
-                       </div>
-                      </div>
-                    </div>
-                  </div>
-                    `;
-    powerList.appendChild(element);
-    }
 
     /* showStatusAll(){
       
